@@ -14,12 +14,14 @@ async function store(req, res) {
   try {
     let orderProducts = req.body.products;
     let productsId = orderProducts.map((product) => product.id);
-    let originalProducts = await Product.find({ id: { $in: productsId } });
+    console.log(productsId);
+    let originalProducts = await Product.find({ _id: { $in: productsId } });
     let availableStock = true;
 
+    console.log("OriginalProducts***********************************");
     console.log(originalProducts);
 
-    for (let i = 0; i <= orderProducts.length - 1; i++) {
+    for (let i = 0; i < orderProducts.length - 1; i++) {
       if (orderProducts[i].quantity > originalProducts[i].stock) {
         availableStock = false;
       }
@@ -62,7 +64,6 @@ async function store(req, res) {
         user: req.auth.id,
       });
       const user = await User.findById(req.auth.id);
-      console.log(user);
       user.orders.push(newOrder.id);
       await user.save();
 
