@@ -17,6 +17,8 @@ async function store(req, res) {
     let originalProducts = await Product.find({ id: { $in: productsId } });
     let availableStock = true;
 
+    console.log(originalProducts);
+
     for (let i = 0; i <= orderProducts.length - 1; i++) {
       if (orderProducts[i].quantity > originalProducts[i].stock) {
         availableStock = false;
@@ -60,6 +62,7 @@ async function store(req, res) {
         user: req.auth.id,
       });
       const user = await User.findById(req.auth.id);
+      console.log(user);
       user.orders.push(newOrder.id);
       await user.save();
 
