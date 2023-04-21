@@ -18,9 +18,6 @@ async function store(req, res) {
     let originalProducts = await Product.find({ _id: { $in: productsId } });
     let availableStock = true;
 
-    console.log("OriginalProducts***********************************");
-    console.log(originalProducts);
-
     for (let i = 0; i < orderProducts.length - 1; i++) {
       if (orderProducts[i].quantity > originalProducts[i].stock) {
         availableStock = false;
